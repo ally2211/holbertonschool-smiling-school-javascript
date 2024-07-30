@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slick Slider Example</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="font-style.css" />
+    
+    </style>
+        <style>
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            top: -50px; /* Adjust based on your design */
+        }
+        .prev, .next {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader2">
+        <!-- Slides will be populated here -->
+    </div>
+    <div id="prev">Prev</div>
+    <div id="next">Next</div>
+    <div class="carousel-controls">
+    <div class="prev">Previous</div>
+    <div class="next">Next</div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url: 'https://smileschool-api.hbtn.info/quotes', // Path to your JSON file
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {              
+                    var sliderContent = '';
+                    sliderContent += '<div class="carousel-inner">';
+                    data.forEach(function(item) {
+                        var activeClass = index === 0 ? 'active' : '';
+                        sliderContent += '<div class="carousel-item ' + activeClass + '">';
+                        
+                        sliderContent += '<div class="carousel-item">';
+                        sliderContent += '<div class="row mx-auto align-items-center">';
+
+                        sliderContent += '<div class="col-12 col-sm-2 col-lg-2 offset-lg-1 text-center">';
+                        sliderContent += '<img src="' + item.pic_url + '" class="d-block align-self-center" alt="Slide Image">';
+                        sliderContent += '</div>';
+
+                        sliderContent += '<div class="col-12 col-sm-7 offset-sm-2 col-lg-9 offset-lg-0">';
+
+                        sliderContent += '<div class="quote-text">';
+                        sliderContent += '<p class="text-white">';
+                        sliderContent += '<h4 class="text-white font-weight-bold">' + item.title + '</h4>';
+                        sliderContent += '<span class="text-white">' + item.text + '</span>';
+                        sliderContent += '</div>';
+                        
+                        sliderContent += '</div>';
+                        sliderContent += '</div>';
+                        sliderContent += '</div>';
+                    });
+                    
+                        sliderContent += '</div>';
+                    $('.loader2').html(sliderContent);
+                    
+
+                    // Initialize Slick slider after content is added
+                    var slickSlider = $('.loader2').slick({
+                        infinite: true,
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+
+                        prevArrow: $('.prev'),
+                        nextArrow: $('.next')
+                    });
+                    },
+                error: function() {
+                    console.error('Error fetching JSON data.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1272,11 +1272,14 @@
                     videoContent += '<div class="carousel-inner">';
                     data.forEach(function(itemvid, indexvid) {
                         var activeClass = indexvid === 0 ? 'active' : '';
-                        videoContent += '<div class="carousel-item ' + activeClass + '">';
                         
-                        videoContent += '<div class="row align-items-center mx-auto">';
-                        
-                        videoContent += '<div class="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center">';
+                        if (indexvid % 2 === 0 || indexvid === 0) {
+                          videoContent += '<div class="carousel-item ' + activeClass + '">';
+                          videoContent += '<div class="row align-items-center mx-auto">';
+                          videoContent += '<div class="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center">';
+                        } else {
+                          videoContent += '<div class="col-sm-6 col-md-6 col-lg-3 d-none d-sm-flex justify-content-md-start justify-content-lg-center">';
+                        }
                         videoContent += '<div class="card">';
                         videoContent += '<img src="' + itemvid.author_pic_url + '" class="card-img-top" alt="Video thumbnail"/>';
                         videoContent += '<div class="card-img-overlay text-center">';
@@ -1305,6 +1308,10 @@
                         videoContent += '</div>';
                         videoContent += '</div>';
                         videoContent += '</div>';
+                        if (indexvid % 2 === 0 || indexvid === 0) {
+                          videoContent += '</div>';
+                          videoContent += '</div>';
+                        }
                     });
                     
                         videoContent += '</div>';
@@ -1315,8 +1322,6 @@
                     console.error('Error fetching JSON data.');
                 }
             });
-
-
 
         });
     </script>

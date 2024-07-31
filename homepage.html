@@ -6,6 +6,8 @@
     <title>holberton-smiling</title>
 
     <!-- Slick slider   -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
@@ -1219,7 +1221,11 @@
         </div>
       </div>
     </footer>
-        <script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+      <script src="https://unpkg.com/wicg-inert/dist/inert.min.js"></script>
+
+      <script>
         $(document).ready(function(){
             $.ajax({
                 url: 'https://smileschool-api.hbtn.info/quotes', // Path to your JSON file
@@ -1229,6 +1235,7 @@
                     var sliderContent = '';
                     sliderContent += '<div class="carousel-inner">';
                     data.forEach(function(item, index) {
+                       console.log(index + "is index");
                         var activeClass = index === 0 ? 'active' : '';
                         sliderContent += '<div class="carousel-item ' + activeClass + '">';
                         
@@ -1271,15 +1278,21 @@
                     var videoContent = '';
                     videoContent += '<div class="carousel-inner">';
                     data.forEach(function(itemvid, indexvid) {
-                        var activeClass = indexvid === 0 ? 'active' : '';
-                        
-                        if (indexvid % 2 === 0 || indexvid === 0) {
-                          videoContent += '<div class="carousel-item ' + activeClass + '">';
+                      console.log(indexvid + "is indexvid");
+                
+                        if (indexvid === 0) {
+                          videoContent += '<div class="carousel-item active>';
+                          videoContent += '<div class="row align-items-center mx-auto">';
+                        } else {
+                            videoContent += '<div class="carousel-item">';
+                        }
+                        if ((indexvid) % 2 === 0 && indexvid !== 0) {
                           videoContent += '<div class="row align-items-center mx-auto">';
                           videoContent += '<div class="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center">';
                         } else {
                           videoContent += '<div class="col-sm-6 col-md-6 col-lg-3 d-none d-sm-flex justify-content-md-start justify-content-lg-center">';
                         }
+
                         videoContent += '<div class="card">';
                         videoContent += '<img src="' + itemvid.author_pic_url + '" class="card-img-top" alt="Video thumbnail"/>';
                         videoContent += '<div class="card-img-overlay text-center">';
@@ -1290,7 +1303,7 @@
                         videoContent += '<h5 class="card-title font-weight-bold">' + itemvid.title + '</h5>';
                         videoContent += '<p class="card-text text-muted">' + itemvid['sub-title'] + '</p>';
                         videoContent += '<div class="creator d-flex align-items-center">';
-                        videoContent += '<img src="images/profile_1.jpg" class="rounded-circle" alt="Creator of Video" width="30px"/>';                
+                        videoContent += '<img src="' + itemvid.thumb_url + '" class="rounded-circle" alt="Creator of Video" width="30px"/>';                
                         videoContent += '<h6 class="pl-3 m-0 main-color">' + itemvid.author + '</h6>';
                         videoContent += '</div>';
 
@@ -1303,12 +1316,12 @@
                         videoContent += '<img src="images/star_off.png" width="15px" alt="star off"/>';
                         videoContent += '</div>';
 
-                        videoContent += '<span class="main-color">8 min</span>';
+                        videoContent += '<span class="main-color">' + itemvid.duration + '</span>';
                         videoContent += '</div>';
                         videoContent += '</div>';
                         videoContent += '</div>';
                         videoContent += '</div>';
-                        if (indexvid % 2 === 0 || indexvid === 0) {
+                        if ((indexvid) % 2 === 1 || indexvid !== 0) {
                           videoContent += '</div>';
                           videoContent += '</div>';
                         }
@@ -1317,6 +1330,22 @@
                         videoContent += '</div>';
                     $('.videoSlide').html(videoContent);
 
+                    $('.videoSlide').slick({
+                        infinite: true,
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                        prevArrow: $('.carousel-control-prev arrow-left'),
+                        nextArrow: $('.carousel-control-next arrow-right')
+                    });
+                     // Adding the inert attribute to hidden slides
+                    $('.your-slider').on('afterChange', function(event, slick, currentSlide){
+                        $('.slick-slide').attr('inert', true);
+                        $('.slick-active').attr('inert', false);
+                    });
+
+                    // Initial setup for inert attribute
+                    $('.slick-slide').attr('inert', true);
+                    $('.slick-active').attr('inert', false);
                 },
                 error: function() {
                     console.error('Error fetching JSON data.');

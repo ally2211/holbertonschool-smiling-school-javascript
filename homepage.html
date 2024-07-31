@@ -9,14 +9,11 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-
-
     <!-- Custom and Font Styles  -->
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="font-style.css" />
     <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
+
     <!-- Google Fonts -->
     <link
       href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap"
@@ -50,15 +47,7 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Coiny&display=swap" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+    
     <link rel="stylesheet" href="styles.css">
 
 
@@ -1283,14 +1272,14 @@
                         if (indexvid === 0) {
                           videoContent += '<div class="carousel-item active>';
                           videoContent += '<div class="row align-items-center mx-auto">';
-                        } else {
-                            videoContent += '<div class="carousel-item">';
-                        }
-                        if ((indexvid) % 2 === 0 && indexvid !== 0) {
-                          videoContent += '<div class="row align-items-center mx-auto">';
                           videoContent += '<div class="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center">';
+
+                        } else if ((indexvid + 1) % 2 === 0 ) {
+                            videoContent += '<div class="carousel-item">';
+                            //videoContent += '<div class="row align-items-center mx-auto">';
+                            videoContent += '<div class="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center">';
                         } else {
-                          videoContent += '<div class="col-sm-6 col-md-6 col-lg-3 d-none d-sm-flex justify-content-md-start justify-content-lg-center">';
+                            videoContent += '<div class="col-sm-6 col-md-6 col-lg-3 d-none d-sm-flex justify-content-md-start justify-content-lg-center">';
                         }
 
                         videoContent += '<div class="card">';
@@ -1321,24 +1310,26 @@
                         videoContent += '</div>';
                         videoContent += '</div>';
                         videoContent += '</div>';
-                        if ((indexvid) % 2 === 1 || indexvid !== 0) {
+                        if ((indexvid+1) % 2 === 1 || indexvid !== 0) {
                           videoContent += '</div>';
                           videoContent += '</div>';
                         }
                     });
                     
                         videoContent += '</div>';
+                    //$('.videoSlide').html(videoContent);
                     $('.videoSlide').html(videoContent);
 
                     $('.videoSlide').slick({
                         infinite: true,
-                        slidesToShow: 1,
+                        slidesToShow: 4,
                         slidesToScroll: 1,
-                        prevArrow: $('.carousel-control-prev arrow-left'),
-                        nextArrow: $('.carousel-control-next arrow-right')
+                        prevArrow: $('.prev'),
+                        nextArrow: $('.next')
                     });
-                     // Adding the inert attribute to hidden slides
-                    $('.your-slider').on('afterChange', function(event, slick, currentSlide){
+
+                    // Adding the inert attribute to hidden slides
+                    $('.videoSlide').on('afterChange', function(event, slick, currentSlide){
                         $('.slick-slide').attr('inert', true);
                         $('.slick-active').attr('inert', false);
                     });

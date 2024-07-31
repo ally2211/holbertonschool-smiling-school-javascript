@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slick Slider with Custom Controls</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <style>
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            top: -50px; /* Adjust based on your design */
+        }
+        .prev, .next {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .carousel-item {
+            outline: none; /* Removes focus outline */
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <div class="your-slider">
+            <!-- Slides will be populated here -->
+        </div>
+        <div class="carousel-controls">
+            <div class="prev">Previous</div>
+            <div class="next">Next</div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://unpkg.com/wicg-inert/dist/inert.min.js"></script>
+    <script>
+        $(document).ready(function(){
+             $.ajax({
+                url: 'https://smileschool-api.hbtn.info/popular-tutorials', // Path to your JSON file
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {              
+                    var videoContent = '';
+                    videoContent += '<div class="carousel-inner">';
+                    data.forEach(function(itemvid, indexvid) {
+                      console.log(indexvid + "is indexvid");
+                
+                        if (indexvid === 0) {
+                          videoContent += '<div class="carousel-item active>';
+                          videoContent += '<div class="row align-items-center mx-auto">';
+                          videoContent += '<div class="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center">';
+
+                        } else if ((indexvid + 1) % 2 === 0 ) {
+                            videoContent += '<div class="carousel-item">';
+                            //videoContent += '<div class="row align-items-center mx-auto">';
+                            videoContent += '<div class="col-12 col-sm-6 col-md-6 col-lg-3 d-flex justify-content-center justify-content-md-end justify-content-lg-center">';
+                        } else {
+                            videoContent += '<div class="col-sm-6 col-md-6 col-lg-3 d-none d-sm-flex justify-content-md-start justify-content-lg-center">';
+                        }
+
+                        videoContent += '<div class="card">';
+                        videoContent += '<img src="' + itemvid.author_pic_url + '" class="card-img-top" alt="Video thumbnail"/>';
+                        videoContent += '<div class="card-img-overlay text-center">';
+                        videoContent += '<img src="images/play.png" class="align-self-center play-overlay" alt="Play" width="64px"/>';                
+                        videoContent += '</div>';
+
+                        videoContent += '<div class="card-body">';
+                        videoContent += '<h5 class="card-title font-weight-bold">' + itemvid.title + '</h5>';
+                        videoContent += '<p class="card-text text-muted">' + itemvid['sub-title'] + '</p>';
+                        videoContent += '<div class="creator d-flex align-items-center">';
+                        videoContent += '<img src="' + itemvid.thumb_url + '" class="rounded-circle" alt="Creator of Video" width="30px"/>';                
+                        videoContent += '<h6 class="pl-3 m-0 main-color">' + itemvid.author + '</h6>';
+                        videoContent += '</div>';
+
+                        videoContent += '<div class="info pt-3 d-flex justify-content-between">';
+                        videoContent += '<div class="rating">'
+                        videoContent += '<img src="images/star_on.png" width="15px" alt="star on"/>';
+                        videoContent += '<img src="images/star_on.png" width="15px" alt="star on"/>';
+                        videoContent += '<img src="images/star_on.png" width="15px" alt="star on"/>';
+                        videoContent += '<img src="images/star_on.png" width="15px" alt="star on"/>';
+                        videoContent += '<img src="images/star_off.png" width="15px" alt="star off"/>';
+                        videoContent += '</div>';
+
+                        videoContent += '<span class="main-color">' + itemvid.duration + '</span>';
+                        videoContent += '</div>';
+                        videoContent += '</div>';
+                        videoContent += '</div>';
+                        videoContent += '</div>';
+                        if ((indexvid+1) % 2 === 1 || indexvid !== 0) {
+                          videoContent += '</div>';
+                          videoContent += '</div>';
+                        }
+                    });
+                    
+                        videoContent += '</div>';
+                    //$('.videoSlide').html(videoContent);
+                    $('.your-slider').html(videoContent);
+
+                    $('.your-slider').slick({
+                        infinite: true,
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        prevArrow: $('.prev'),
+                        nextArrow: $('.next')
+                    });
+
+                    // Adding the inert attribute to hidden slides
+                    $('.your-slider').on('afterChange', function(event, slick, currentSlide){
+                        $('.slick-slide').attr('inert', true);
+                        $('.slick-active').attr('inert', false);
+                    });
+
+                    // Initial setup for inert attribute
+                    $('.slick-slide').attr('inert', true);
+                    $('.slick-active').attr('inert', false);
+                },
+                error: function() {
+                    console.error('Error fetching JSON data.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

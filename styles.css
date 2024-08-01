@@ -861,13 +861,13 @@
 }
 
 /* RESULTS SECTION  */
-.results .section-title {
+.section-title {
   font-size: 16px;
   line-height: 20px;
   margin-bottom: 29px;
 }
 
-.results .container {
+.container {
   margin-top: 47px;
   margin-bottom: 37px;
 }
@@ -878,25 +878,25 @@
 }
 
 @media screen and (min-width: 576px) and (max-width: 767px) {
-  .results .card-img-overlay {
+  .card-img-overlay {
     top: 1vh;
   }
-  .results .rating img {
+  .rating img {
     width: 12px;
   }
 
-  .results .rating + span {
+  .rating + span {
     display: block;
     padding-top: 30px;
   }
 }
 
 @media screen and (max-width: 575px) {
-  .results .card-img-overlay {
+  .card-img-overlay {
     top: 5vh;
   }
 
-  .results .card {
+  .card {
     width: 90vw;
   }
 }
